@@ -49,7 +49,7 @@ afterEvaluate {
                     name = ARTIFACT_ID
                     description = '网络请求'
                     // If your project has a dedicated site, use its URL here
-                    url = 'https://github.com/usernameyangyan/Bluetooth'
+                    url = 'https://github.com/usernameyangyan/RequestApi'
                     licenses {
                         license {
                             //协议类型，一般默认Apache License2.0的话不用改：
@@ -67,10 +67,10 @@ afterEvaluate {
                     // Version control info, if you're using GitHub, follow the format as seen here
                     scm {
                         //修改成你的Git地址：
-                        connection = 'scm:git@github.com:usernameyangyan/Bluetooth.git'
-                        developerConnection = 'scm:git@github.com:usernameyangyan/Bluetooth.git'
+                        connection = 'scm:git@github.com:usernameyangyan/RequestApi.git'
+                        developerConnection = 'scm:git@github.com:usernameyangyan/RequestApi.git'
                         //分支地址：
-                        url = 'https://github.com/usernameyangyan/Bluetooth/tree/main'
+                        url = 'https://github.com/usernameyangyan/RequestApi/tree/main'
                     }
                     // A slightly hacky fix so that your POM will include any transitive dependencies
                     // that your library builds upon
