@@ -1,9 +1,11 @@
 package com.example.request.api.demo
 
 import com.request.api.builder.CreateRequestBuilderFactory
+import com.request.api.builder.WsRequestBuilder
 import com.request.api.download.DownloadInfo
 import com.request.api.exception.BaseException
 import com.request.api.impl.IRequestNetListener
+import com.request.api.impl.IWsMessageListener
 import com.request.api.manager.RequestManager
 
 /**
@@ -22,7 +24,23 @@ class MainActivity {
 
         })
 
+        val builder1=WsRequestBuilder(object :IWsMessageListener{
+            override fun onMessage(message: String) {
+                TODO("Not yet implemented")
+            }
 
-        RequestManager.instance.request(builder)
+            override fun onConnectSuccess() {
+                TODO("Not yet implemented")
+            }
+
+            override fun onFailure(t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onClosed(code: Int, reason: String) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 }

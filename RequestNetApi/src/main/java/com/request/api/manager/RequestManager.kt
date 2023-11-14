@@ -2,6 +2,7 @@ package com.request.api.manager
 
 import com.request.api.async.RequestMethod
 import com.request.api.builder.CreateRequestBuilderFactory
+import com.request.api.builder.WsRequestBuilder
 import com.request.api.common.HttpReqEnv
 import com.request.api.exception.OtherException
 import com.request.api.sync.SyncRequestManager
@@ -31,5 +32,9 @@ class RequestManager {
             }
         }
         return null
+    }
+
+    fun request(builder:WsRequestBuilder):WsManager{
+        return WsManager(builder)
     }
 }
