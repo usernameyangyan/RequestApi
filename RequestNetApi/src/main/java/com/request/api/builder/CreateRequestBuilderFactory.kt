@@ -4,6 +4,7 @@ import com.request.api.common.HttpReqEnv
 import com.request.api.common.HttpReqModelType
 import com.request.api.common.HttpReqParamType
 import com.request.api.download.DownloadInfo
+import com.request.api.impl.IDownloadListener
 import com.request.api.impl.IRequestNetListener
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -23,7 +24,7 @@ class CreateRequestBuilderFactory {
             return instance.RequestBuilder(requestNetListener)
         }
 
-        fun createDownloadRequestBuilder(requestNetListener: IRequestNetListener<DownloadInfo>): DownloadRequestBuilder {
+        fun createDownloadRequestBuilder(requestNetListener: IDownloadListener<DownloadInfo>): DownloadRequestBuilder {
             return instance.DownloadRequestBuilder(requestNetListener)
         }
     }
@@ -185,7 +186,7 @@ class CreateRequestBuilderFactory {
         }
     }
 
-    inner class DownloadRequestBuilder(requestNetListener: IRequestNetListener<DownloadInfo>) :
+    inner class DownloadRequestBuilder(requestNetListener: IDownloadListener<DownloadInfo>) :
         BaseRequestBuilder<DownloadInfo>(requestNetListener) {
         private var saveDownFilePath: String? = null
         private var saveDownFileName: String? = null

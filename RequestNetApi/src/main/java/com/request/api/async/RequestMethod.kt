@@ -38,31 +38,40 @@ class RequestMethod : RequestMethodImpl {
         if (builder.getUrl() == null) {
             throw OtherException("RequestBuilder url not set!")
         }
-         if(builder is CreateRequestBuilderFactory.RequestBuilder){
-            val observable = getRetrofit(builder) ?: throw OtherException("Create observable failed!")
+        if (builder is CreateRequestBuilderFactory.RequestBuilder) {
+            val observable =
+                getRetrofit(builder) ?: throw OtherException("Create observable failed!")
             return when (builder.getReqModelType()) {
-                HttpReqModelType.NO_CACHE_OBJECT,HttpReqModelType.DEFAULT_CACHE_OBJECT->{
-                    requestByNetWork(builder,observable,ConvertType.OBJECT)
+                HttpReqModelType.NO_CACHE_OBJECT, HttpReqModelType.DEFAULT_CACHE_OBJECT -> {
+                    requestByNetWork(builder, observable, ConvertType.OBJECT)
                 }
-                HttpReqModelType.NO_CACHE_LIST,HttpReqModelType.DEFAULT_CACHE_LIST->{
-                    requestByNetWork(builder,observable,ConvertType.LIST)
+
+                HttpReqModelType.NO_CACHE_LIST, HttpReqModelType.DEFAULT_CACHE_LIST -> {
+                    requestByNetWork(builder, observable, ConvertType.LIST)
                 }
-                HttpReqModelType.DISK_CACHE_LIST_LIMIT_TIME->{
-                    requestByDiskResultLimitTime(builder,observable,ConvertType.LIST)
+
+                HttpReqModelType.DISK_CACHE_LIST_LIMIT_TIME -> {
+                    requestByDiskResultLimitTime(builder, observable, ConvertType.LIST)
                 }
-                HttpReqModelType.DISK_CACHE_OBJECT_LIMIT_TIME->{
-                    requestByDiskResultLimitTime(builder,observable,ConvertType.LIST)
+
+                HttpReqModelType.DISK_CACHE_OBJECT_LIMIT_TIME -> {
+                    requestByDiskResultLimitTime(builder, observable, ConvertType.LIST)
                 }
-                HttpReqModelType.DISK_CACHE_WITHOUT_NET_LIST->{
-                    requestNoNetWorkByCacheResult(builder,observable,ConvertType.LIST)
+
+                HttpReqModelType.DISK_CACHE_WITHOUT_NET_LIST -> {
+                    requestNoNetWorkByCacheResult(builder, observable, ConvertType.LIST)
                 }
-                HttpReqModelType.DISK_CACHE_WITHOUT_NET_OBJECT->{
-                    requestNoNetWorkByCacheResult(builder,observable,ConvertType.OBJECT)
+
+                HttpReqModelType.DISK_CACHE_WITHOUT_NET_OBJECT -> {
+                    requestNoNetWorkByCacheResult(builder, observable, ConvertType.OBJECT)
                 }
-                else->{
+
+                else -> {
                     null
                 }
             }
+        } else if (builder is CreateRequestBuilderFactory.DownloadRequestBuilder) {
+            return downloadFile(builder)
         }
         return null
     }
@@ -225,7 +234,7 @@ class RequestMethod : RequestMethodImpl {
             }.compose(RxSchedulers.threadToMain())
             .subscribeWith(object : RxSubscriber<T>() {
                 override fun _onNext(t: T) {
-                    val downloadInfo=t as DownloadInfo
+                    val downloadInfo = t as DownloadInfo
                     if (!downloadInfo.isFinish && !RequestNetUtils.isNetworkConnected()) {
                         builder.getRequestNetListener().onError(
                             BaseException(
@@ -237,7 +246,10 @@ class RequestMethod : RequestMethodImpl {
                         builder.getRequestNetListener().onError(
                             BaseException(
                                 RequestExceptionCode.UNKNOWN_ERROR,
-                                Description(-1, "Download interrupted, please check if there is any abnormality in the downloaded file.")
+                                Description(
+                                    -1,
+                                    "Download interrupted, please check if there is any abnormality in the downloaded file."
+                                )
                             )
                         )
                     } else {
